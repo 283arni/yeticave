@@ -1,6 +1,5 @@
 <?php
     $user_name = 'Александр';
-
     $is_auth = rand(0, 1);
 ?>
 
@@ -57,9 +56,9 @@
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-            <?php foreach ($categories as $key => $value): ?>
+            <?php foreach ($categories as $category): ?>
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?= $value ?></a>
+                    <a href="pages/all-lots.html"><?= $category["name_cat"] ?></a>
                 </li>
             <?php endforeach ?>
         </ul>

@@ -2,7 +2,7 @@
 
 
 $categories = [
-    "bords" => "Доски и лыжи",
+    "boards" => "Доски и лыжи",
     "fastenings" => "Крепления",
     "boots" => "Ботинки",
     "clothes" => "Одежда",
@@ -13,15 +13,15 @@ $categories = [
 $cards = [
     [
         "name" => "2014 Rossignol District Snowboard",
-        "project" => $categories["bords"],
+        "project" => $categories["boards"],
         "price" => 10999,
         "url" => "img/lot-1.jpg",
         "end_time" => "2025-11-09",
     ],
         [
         "name" => "DC Ply Mens 2016/2017 Snowboard",
-        "project" => $categories["bords"],
-        "price" => 159999,
+        "project" => $categories["boards"],
+        "price" => 15999,
         "url" => "img/lot-2.jpg",
         "end_time" => "2025-11-08",
     ],
