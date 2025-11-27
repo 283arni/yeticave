@@ -24,7 +24,7 @@
                         </div>
                         <div class="lot__info">
                             <span class="lot__category"><?= htmlspecialchars($card['name_cat']) ?></span>
-                            <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?= htmlspecialchars($card["name_lot"]) ?></a></h3>
+                            <h3 class="lot__title"><a class="text-link" href="lot.php?id=<?= $card["id"] ?>"><?= htmlspecialchars($card["name_lot"]) ?></a></h3>
                             <div class="lot__state">
                                 <div class="lot__rate">
                                     <span class="lot__amount">Стартовая цена</span>
