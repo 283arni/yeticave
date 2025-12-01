@@ -6,7 +6,7 @@ require_once("connect.php");
 
 $categories = [];
 $cards = [];
-
+$card = [];
 
 if(!$link) {
     $error = mysqli_connect_error();
@@ -54,4 +54,3 @@ $layout = include_template("layout.php", [
 ]);
 
 print($layout);
-?>

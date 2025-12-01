@@ -1,3 +1,4 @@
+<main class="container">
     <section class="promo">
         <h2 class="promo__title">Нужен стафф для катки?</h2>
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
@@ -20,7 +21,7 @@
                 <?php foreach ($cards as $card): ?>
                     <li class="lots__item lot">
                         <div class="lot__image">
-                            <img src="<?= $card["image_lot"] ?>" width="350" height="260" alt="<?= htmlspecialchars($card["name_lot"]) ?>">
+                            <img src="uploads/<?= $card["image_lot"] ?>" width="350" height="260" alt="<?= htmlspecialchars($card["name_lot"]) ?>">
                         </div>
                         <div class="lot__info">
                             <span class="lot__category"><?= htmlspecialchars($card['name_cat']) ?></span>
@@ -42,3 +43,4 @@
             <?php endif; ?>
         </ul>
     </section>
+</main>

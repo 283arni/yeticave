@@ -44,13 +44,14 @@ if(!mysqli_num_rows($result)) {
     $content = include_template("error.php", ["error" => $error]);
 } else {
     $card = mysqli_fetch_assoc($result);
-    $content = include_template("card-lot.php", [
+    $content = include_template("lot.php", [
+        "categories" => $categories,
         "card" => $card,
     ]);
 }
 
 
-$layout = include_template("lot.php", [
+$layout = include_template("layout.php", [
     "title" => $card["name_lot"] ?? "Страница лота",
     "content" => $content,
     "categories" => $categories,
