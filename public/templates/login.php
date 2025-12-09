@@ -9,7 +9,7 @@
       </ul>
     </nav>
     <?php $classname = (!empty($errors)) ? "form--invalid" : ""; ?>
-    <form class="form container <?= $classname ?>" action="login.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
+    <form class="form container <?= $classname ?>" action="login.php" method="post" > <!-- form--invalid -->
       <h2>Вход</h2>
       <?php $classname = isset($errors["email"]) ? "form__item--invalid" : ""; ?>
       <div class="form__item <?= $classname ?>"> <!-- form__item--invalid -->

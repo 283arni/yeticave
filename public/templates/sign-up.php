@@ -10,7 +10,7 @@
         </ul>
     </nav>
       <?php $classname = (!empty($errors)) ? "form--invalid" : ""; ?>
-    <form class="form container <?= (!empty($errors)) ? "form--invalid" : "" ?>" action="auth.php" method="post" autocomplete="off" enctype="multipart/form-data"> <!-- form
+    <form class="form container <?= (!empty($errors)) ? "form--invalid" : "" ?>" action="auth.php" method="post" autocomplete="off"> <!-- form
     --invalid -->
       <h2>Регистрация нового аккаунта</h2>
       <?php $classname = isset($errors["email"]) ? "form__item--invalid" : ""; ?>
