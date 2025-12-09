@@ -7,20 +7,12 @@ $categories = [];
 $card = [];
 $page_error = include_template("404.php", ["categories" => $categories,]);
 
-
-if(!$link) {
-    $error = mysqli_connect_error();
-    $content = include_template("error.php", ["error" => $error]);
-}
-
 $sql = "SELECT * FROM categories";
 
 $result = mysqli_query($link, $sql);
 
 if(!$result) {
-    $error = mysqli_connect_error();
-
-    $content = include_template("error.php", ["error" => $error]);
+    $content = connect_error();
 } else {
     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
@@ -39,9 +31,7 @@ if($id) {
 $result = mysqli_query($link, $sql);
 
 if(!mysqli_num_rows($result)) {
-    $error = mysqli_connect_error();
-
-    $content = include_template("error.php", ["error" => $error]);
+    $content = connect_error();
 } else {
     $card = mysqli_fetch_assoc($result);
     $content = include_template("lot.php", [

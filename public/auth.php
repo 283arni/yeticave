@@ -1,15 +1,10 @@
 <?php
-require_once("function.php");
+
+require_once("functions.php");
 require_once("helpers.php");
 require_once("connect.php");
 
 $categories = [];
-
-if (!$link) {
-    $error = mysqli_connect_error();
-
-    $content = include_template("error.php", ["error" => $error]);
-}
 
 $sql = "SELECT * FROM categories";
 
@@ -27,17 +22,23 @@ $content = include_template("sign-up.php", [
     "categories" => $categories,
 ]);
 
+if (isset($_SESSION["user"])) {
+    $content = include_template("authorized.php", [
+        "categories" => $categories,
+    ]);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST;
     $rules = [
-        "password" => function () {
-            return validateText($value, 6, 20);
+        "password" => function ($value) {
+            return validate_text($value, 6, 20);
         },
         "name" => function ($value) {
-            return validateText($value, 3, 30);
+            return validate_text($value, 3, 30);
         },
         "message" => function ($value) {
-            return validateText($value, 5, 1000);
+            return validate_text($value, 5, 1000);
         }
     ];
 
@@ -48,11 +49,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "password" => FILTER_DEFAULT,
     ];
 
+    $user_checked = filter_input_array(INPUT_POST, $fields, true);
+    $errors = filter_values($user_checked, $rules);
+
+    if(isset($user_checked['email']) && $user_checked['email'] === false) {
+        $errors['email'] = 'Некорректный Email';
+    }
+
+    $name = mysqli_real_escape_string($link, $user_checked["name"]);
+    $email = mysqli_real_escape_string($link, $user_checked["email"]);
+
+    $sql = "SELECT id FROM users WHERE email = '$email'" ;
+    $result = mysqli_query($link, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $errors["email"] = "Пользователь с такой почтой уже есть";
+    } else if ($result === false) {
+        $errors['db'] = mysqli_error($link);
+    }
+
+    $sql = "SELECT id FROM users WHERE name_user = '$name'";
+    $result = mysqli_query($link, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $errors["name"] = "Пользователь с таким именем уже есть";
+    } else if ($result === false) {
+        $errors['db'] = mysqli_error($link);
+    }
+
+    $errors = array_filter($errors);
+
+    if (count($errors)) {
+        $content = include_template("sign-up.php", [
+            "categories" => $categories,
+            "errors" => $errors,
+        ]);
+    } else {
+        $user["password"] = password_hash($user["password"], PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO users (dt_add, email, password_user, name_user, contact) VALUES (NOW(), ?, ?, ?, ?)";
+        $stmt = db_get_prepare_stmt($link, $sql, $user);
+        $result = mysqli_stmt_execute($stmt);
+
+        if ($result) {
+            $lot_id = mysqli_insert_id($link);
+            header("Location: /login.php");
+            exit;
+        } else {
+            $error = mysqli_error($link);
+            $content = include_template("error.php", ["error" => $error]);
+        }
+    }
 }
 
-
 $layout = include_template("layout.php", [
-    "title" => "Авторизация",
+    "title" => "Регистрация",
     "content" => $content,
     "categories" => $categories,
 ]);

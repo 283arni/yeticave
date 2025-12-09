@@ -1,5 +1,5 @@
 <main>
-    <nav class="nav container">
+    <nav class="nav">
         <ul class="nav__list container">
             <?php foreach($categories as $category): ?>
                 <li class="nav__item">
@@ -9,7 +9,7 @@
         </ul>
     </nav>
     <section class="lot-item container">
-        <h2>404 Страница не найдена</h2>
-        <p>Данной страницы не существует на сайте.</p>
+        <h2>Ошибка 403 (Forbidden, Доступ запрещён) </h2>
+        <p>Авторизуйтесь на сайте.</p>
     </section>
 </main>

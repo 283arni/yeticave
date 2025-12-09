@@ -1,13 +1,13 @@
 <?php
 
 
-function set_price($price) {
+function set_price($price): string {
     $int_price = ceil($price);
 
     return number_format($int_price, 0, '', ' ');
 };
 
-function set_time_lot($str_date) {
+function set_time_lot($str_date): array {
     $now = date_create();
     $end_time = date_create($str_date);
 
@@ -33,7 +33,7 @@ function set_time_lot($str_date) {
     return $res;
 }
 
-function validateCat($id, $categories) {
+function validate_cat($id, $categories): null|string {
     $ids_categories = array_column($categories, 'id');
 
     if(!in_array($id, $ids_categories)) {
@@ -43,7 +43,7 @@ function validateCat($id, $categories) {
     return null;
 }
 
-function validatePrice($price) {
+function validate_price($price): null|string {
     if(!is_numeric($price)) {
         return "Введите корректную сумму";
     } else if($price <= 0) {
@@ -53,7 +53,7 @@ function validatePrice($price) {
     }
 }
 
-function validateStep($step) {
+function validate_step($step): null|string {
     if(filter_var($step, FILTER_VALIDATE_INT) === false || $step <= 0) {
         return "Ставка должна быть целым числом и больше 0";
     }
@@ -61,7 +61,7 @@ function validateStep($step) {
     return null;
 }
 
-function validateText($txt, $min, $max) {
+function validate_text($txt, $min, $max): null|string {
     $strlen = strlen($txt);
 
     if($strlen < $min || $strlen > $max) {
@@ -71,7 +71,7 @@ function validateText($txt, $min, $max) {
     return null;
 }
 
-function validateDate($date) {
+function validate_date($date): null|string {
     $date_now = date_create();
     $date_select = date_create($date);
     $date_tomorrow = date_add($date_now, date_interval_create_from_date_string("1 day"));
@@ -81,4 +81,26 @@ function validateDate($date) {
     }
 
     return null;
+}
+
+function filter_values($values, $rules): array {
+    $errors = [];
+
+    foreach ($values as $key => $value) {
+        if (empty($value)) {
+            $errors[$key] = 'Заполните поле';
+            continue;
+        }
+
+        if(isset($rules[$key])) {
+            $rule = $rules[$key];
+            $error = $rule($value);
+
+            if ($error) {
+                $errors[$key] = $error;
+            }
+        }
+    }
+
+    return $errors;
 }
