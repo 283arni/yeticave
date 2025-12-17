@@ -29,12 +29,12 @@ if(!$result) {
     $content = connect_error();
 } else {
     $cards = mysqli_fetch_all($result, MYSQLI_ASSOC);
-}
 
-$content = include_template("main.php", [
-    "cards" => $cards,
-    "categories" => $categories,
-]);
+    $content = include_template("main.php", [
+        "cards" => $cards,
+        "categories" => $categories,
+    ]);
+}
 
 $layout = include_template("layout.php", [
     "title" => "Главная страница",

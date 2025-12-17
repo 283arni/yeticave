@@ -1,23 +1,19 @@
-<main class="container">
-    <section class="promo">
-        <h2 class="promo__title">Нужен стафф для катки?</h2>
-        <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
-        <ul class="promo__list">
-            <!--заполните этот список из массива категорий-->
-            <?php foreach ($categories as $category): ?>
-                <li class="promo__item promo__item--<?= $category['code_cat'] ?>">
-                    <a class="promo__link" href="pages/all-lots.html"><?= $category["name_cat"] ?></a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </section>
-    <section class="lots">
-        <div class="lots__header">
-            <h2>Открытые лоты</h2>
-        </div>
+
+  <main>
+    <nav class="nav">
+      <ul class="nav__list container">
+          <?php foreach($categories as $category): ?>
+              <li class="nav__item">
+                  <a href="all-lots.html"><?= $category["name_cat"] ?></a>
+              </li>
+          <?php endforeach; ?>
+      </ul>
+    </nav>
+    <div class="container">
+      <section class="lots">
+        <h2>Результаты поиска по запросу «<span><?= $text; ?></span>»</h2>
         <?php if(!empty($cards)): ?>
-            <ul class="lots__list">
-                <!--заполните этот список из массива с товарами-->
+          <ul class="lots__list">
                 <?php foreach ($cards as $card): ?>
                     <li class="lots__item lot">
                         <div class="lot__image">
@@ -40,9 +36,19 @@
                         </div>
                     </li>
                 <?php endforeach; ?>
-            </ul>
-            <?php else: ?>
-                <p>Нет доступных лотов</p>
-            <?php endif; ?>
-    </section>
-</main>
+        </ul>
+        <?php else: ?>
+            <p>Ничего не найдено</p>
+        <?php endif; ?>
+      </section>
+      <ul class="pagination-list">
+        <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
+        <li class="pagination-item pagination-item-active"><a>1</a></li>
+        <li class="pagination-item"><a href="#">2</a></li>
+        <li class="pagination-item"><a href="#">3</a></li>
+        <li class="pagination-item"><a href="#">4</a></li>
+        <li class="pagination-item pagination-item-next"><a href="#">Вперед</a></li>
+      </ul>
+    </div>
+  </main>
+

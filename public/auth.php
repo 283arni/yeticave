@@ -92,12 +92,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_stmt_execute($stmt);
 
         if ($result) {
-            $lot_id = mysqli_insert_id($link);
             header("Location: /login.php");
             exit;
         } else {
-            $error = mysqli_error($link);
-            $content = include_template("error.php", ["error" => $error]);
+            $content = mysqli_stmt_error($stmt);
         }
     }
 }
