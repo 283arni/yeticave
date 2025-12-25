@@ -745,6 +745,11 @@ main.container {
   color: #25434e;
 }
 
+.pagination-item-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 /* Форма Регистрация + Добавление лота */
 
 .form {

@@ -27,6 +27,6 @@ INSERT INTO bets (price, user_id, lot_id) VALUES
 SELECT name_cat AS "Катигории" FROM categories;
 SELECT l.name_lot, l.price, l.image_lot, c.name_cat FROM lots l JOIN categories c ON l.category_id = c.id;
 SELECT l.id, dt_add, name_lot, desc_lot, price, name_cat FROM lots l JOIN categories c ON l.category_id = c.id WHERE l.id = 1 ;
-UPDATE lots SET dt_end = '2025-12-26' WHERE id = 6;
+UPDATE lots SET dt_end = '2025-12-23' WHERE id = 7;
 SELECT b.id, b.dt_add, b.price, b.lot_id, b.user_id FROM bets b JOIN lots l ON b.lot_id = l.id JOIN users u ON b.user_id = u.id WHERE l.id = 2 ORDER BY b.dt_add DESC;
 SELECT l.id, l.dt_add, l.name_lot, l.image_lot, c.name_cat FROM lots l JOIN categories c ON l.category_id = c.id ORDER BY l.dt_add DESC LIMIT 9

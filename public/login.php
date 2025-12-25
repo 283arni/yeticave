@@ -26,7 +26,7 @@ if (isset($_SESSION["user"])) {
     ]);
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = [];
     $log = $_POST;
     $rules = [
@@ -38,12 +38,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $log_checked = filter_input_array(INPUT_POST, [
         "email" => FILTER_VALIDATE_EMAIL,
         "password" => FILTER_DEFAULT
-    ],true);
+    ], true);
 
     $errors = filter_values($log_checked, $rules);
     $errors = array_filter($errors);
 
-    if(!count($errors)) {
+    if (!count($errors)) {
         $email = mysqli_real_escape_string($link, $log['email']);
         $sql = "SELECT * FROM users WHERE email = '$email'";
         $result = mysqli_query($link, $sql);
@@ -52,10 +52,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $content = connect_error();
 
         } else {
-            if(mysqli_num_rows($result) > 0) {
+            if (mysqli_num_rows($result) > 0) {
                 $user = mysqli_fetch_assoc($result);
 
-                if(!$user || !password_verify($log['password'], $user['password_user'])) {
+                if (!$user || !password_verify($log['password'], $user['password_user'])) {
                     $errors["log"] = "Не верный логин или пароль";
                 }
             } else {
@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if(count($errors)) {
+    if (count($errors)) {
         $content = include_template("login.php", [
             "errors" => $errors,
             "categories" => $categories,

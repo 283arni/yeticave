@@ -1,9 +1,9 @@
 <main>
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach($categories as $category): ?>
+            <?php foreach ($categories as $category): ?>
                 <li class="nav__item">
-                    <a href="all-lots.html"><?= $category["name_cat"] ?></a>
+                    <a href="all-lots.php?category=<?= $category["code_cat"] ?>"><?= $category["name_cat"] ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

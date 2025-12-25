@@ -1,16 +1,20 @@
+<?php
+$categoryName = array_column($categories, 'name_cat', 'code_cat')[$type_cat];
+?>
 <main>
     <nav class="nav">
         <ul class="nav__list container">
             <?php foreach ($categories as $category): ?>
-                <li class="nav__item">
-                    <a href="all-lots.php?category=<?= $category["code_cat"] ?>"><?= $category["name_cat"] ?></a>
+                <?php $classname = $category['code_cat'] == $type_cat ? "nav__item--current" : ""; ?>
+                <li class="nav__item <?= $classname ?>">
+                    <a href="all-lots.php?category=<?= $category["code_cat"]; ?>"><?= $category["name_cat"]; ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
     </nav>
     <div class="container">
-        <section class="lots">
-            <h2>Результаты поиска по запросу «<span><?= $text; ?></span>»</h2>
+        <section class="lots" id="all-lots">
+            <h2>Все лоты в категории <span>"<?= $categoryName ?>"</span></h2>
             <?php if (!empty($cards)): ?>
                 <ul class="lots__list">
                     <?php foreach ($cards as $card): ?>
@@ -41,7 +45,7 @@
                     <?php endforeach; ?>
                 </ul>
             <?php else: ?>
-                <p>Ничего не найдено</p>
+                <p>В категории нет лотов.</p>
             <?php endif; ?>
         </section>
         <?php if ($totalPages > 1): ?>
@@ -50,7 +54,7 @@
                 <!-- Назад -->
                 <li class="pagination-item pagination-item-prev <?= $page <= 1 ? 'pagination-item-disabled' : '' ?>">
                     <?php if ($page > 1): ?>
-                        <a href="?page=<?= $page - 1 ?>#lots">Назад</a>
+                        <a href="?category=<?= $type_cat ?>&page=<?= $page - 1 ?>#all-lots">Назад</a>
                     <?php else: ?>
                         <a>Назад</a>
                     <?php endif; ?>
@@ -62,7 +66,7 @@
                         <?php if ($i === $page): ?>
                             <a><?= $i ?></a>
                         <?php else: ?>
-                            <a href="?page=<?= $i ?>#lots">
+                            <a href="?category=<?= $type_cat ?>&page=<?= $i ?>#all-lots">
                                 <?= $i ?>
                             </a>
                         <?php endif; ?>
@@ -72,7 +76,7 @@
                 <!-- Вперёд -->
                 <li class="pagination-item pagination-item-next <?= $page >= $totalPages ? 'pagination-item-disabled' : '' ?>">
                     <?php if ($page < $totalPages): ?>
-                        <a href="?page=<?= $page + 1 ?>#lots">Вперёд</a>
+                        <a href="?category=<?= $type_cat ?>&page=<?= $page + 1 ?>#all-lots">Вперёд</a>
                     <?php else: ?>
                         <a>Вперёд</a>
                     <?php endif; ?>
@@ -82,4 +86,3 @@
         <?php endif; ?>
     </div>
 </main>
-

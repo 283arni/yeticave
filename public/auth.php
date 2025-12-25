@@ -52,20 +52,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_checked = filter_input_array(INPUT_POST, $fields, true);
     $errors = filter_values($user_checked, $rules);
 
-    if(isset($user_checked['email']) && $user_checked['email'] === false) {
+    if (isset($user_checked['email']) && $user_checked['email'] === false) {
         $errors['email'] = 'Некорректный Email';
     }
 
     $name = mysqli_real_escape_string($link, $user_checked["name"]);
     $email = mysqli_real_escape_string($link, $user_checked["email"]);
 
-    $sql = "SELECT id FROM users WHERE email = '$email'" ;
+    $sql = "SELECT id FROM users WHERE email = '$email'";
     $result = mysqli_query($link, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $errors["email"] = "Пользователь с такой почтой уже есть";
-    } else if ($result === false) {
-        $errors['db'] = mysqli_error($link);
+    } else {
+        if ($result === false) {
+            $errors['db'] = mysqli_error($link);
+        }
     }
 
     $sql = "SELECT id FROM users WHERE name_user = '$name'";
@@ -73,8 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result && mysqli_num_rows($result) > 0) {
         $errors["name"] = "Пользователь с таким именем уже есть";
-    } else if ($result === false) {
-        $errors['db'] = mysqli_error($link);
+    } else {
+        if ($result === false) {
+            $errors['db'] = mysqli_error($link);
+        }
     }
 
     $errors = array_filter($errors);

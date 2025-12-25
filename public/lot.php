@@ -5,6 +5,7 @@ require_once("connect.php");
 
 $categories = [];
 $card = [];
+$bets = [];
 $errors = [];
 $page_error = include_template("404.php", ["categories" => $categories,]);
 
@@ -12,7 +13,7 @@ $sql = "SELECT * FROM categories";
 
 $result = mysqli_query($link, $sql);
 
-if(!$result) {
+if (!$result) {
     $content = connect_error();
 } else {
     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -20,24 +21,30 @@ if(!$result) {
 
 $id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
 
-if($id) {
-    $sql = "SELECT l.id, l.dt_add, l.dt_end, l.desc_lot, l.name_lot, l.image_lot, l.price, l.step, c.name_cat FROM lots l " .
+if ($id) {
+    $sql = "SELECT l.id, l.dt_add, l.dt_end, l.desc_lot, l.name_lot, l.image_lot, l.price, l.step, l.author_id, c.name_cat FROM lots l " .
         "JOIN categories c ON l.category_id = c.id " .
         "WHERE l.id =" . $id;
+    $sql_bets = "SELECT b.price, b.dt_add, u.name_user FROM bets b JOIN  users u ON b.user_id = u.id WHERE b.lot_id =" .
+        $id .
+        " ORDER BY b.dt_add DESC";
 } else {
     print($page_error);
     die();
 }
 
 $result = mysqli_query($link, $sql);
+$result_bets = mysqli_query($link, $sql_bets);
 
-if(!mysqli_num_rows($result)) {
+if (!mysqli_num_rows($result)) {
     $content = connect_error();
 } else {
     $card = mysqli_fetch_assoc($result);
+    $bets = mysqli_fetch_all($result_bets, MYSQLI_ASSOC);
     $content = include_template("lot.php", [
         "categories" => $categories,
         "card" => $card,
+        "bets" => $bets,
     ]);
 }
 
@@ -47,17 +54,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $cost = filter_input(INPUT_POST, "cost", FILTER_SANITIZE_NUMBER_INT);
 
-    if(!$cost) {
+    if (!$cost) {
         $errors["cost"] = "Введите сумму";
 
-    } else if ($cost < $min_bet) {
-        $errors["cost"] = "Ставка должна быть '$min_bet' или больше.";
+    } else {
+        if ($cost < $min_bet) {
+            $errors["cost"] = "Ставка должна быть '$min_bet' или больше.";
+        }
     }
 
-    if(empty($errors)) {
+    if (empty($errors)) {
         $new_price = $card["price"] + $cost;
         $data = [
-            $cost,
+            $new_price,
             $id,
             $id_user
         ];
@@ -102,4 +111,4 @@ $layout = include_template("layout.php", [
 ]);
 
 print($layout);
-?>
+
